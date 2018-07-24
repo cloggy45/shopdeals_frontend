@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
 
+import NavBar from '../components/navbar';
 
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-x          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <NavBar />
       </div>
     );
   }
