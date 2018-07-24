@@ -21,7 +21,7 @@
     "axios": "^0.18.0",
     "axios-mock": "^1.0.1",
     "axios-mock-adapter": "^1.15.0",
-    "cors": "^2.8.4",
+    "expect": "^23.4.0",
     "redux-mock-store": "^1.5.3",
     "redux-thunk": "^2.3.0"
   }

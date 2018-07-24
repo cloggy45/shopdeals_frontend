@@ -6,7 +6,6 @@ import thunk from "redux-thunk";
 import { RECEIVE_USER_SUCCESS, RECEIVE_USER_FAILURE } from "./actionTypes";
 
 import { fetchUserData } from "./api";
-import Axios from "axios";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -55,7 +54,6 @@ describe("Test Async Actions", () => {
       const param = "john";
       
       const payload = {"error": "Fetch user failed"}
-      
 
       const expectedAction = [
         {
