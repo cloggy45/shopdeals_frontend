@@ -60,7 +60,7 @@ class ThreadCard extends React.Component {
   render() {
     const { classes, title, content, time_created } = this.props;
     return (
-      <React.Fragment>
+      <>
         <Card>
           <CardHeader
             avatar={
@@ -111,7 +111,7 @@ class ThreadCard extends React.Component {
             </CardContent>
           </Collapse>
         </Card>
-      </React.Fragment>
+      </>
     );
   }
 }
