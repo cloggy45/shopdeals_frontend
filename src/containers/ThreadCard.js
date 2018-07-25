@@ -1,7 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 import classnames from "classnames";
+
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -13,9 +16,10 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import red from "@material-ui/core/colors/red";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+
+import ThreadMenu from "./ThreadMenu";
 
 const styles = theme => ({
   card: {
@@ -27,6 +31,9 @@ const styles = theme => ({
   },
   actions: {
     display: "flex"
+  },
+  button: {
+    margin: theme.spacing.unit
   },
   expand: {
     transform: "rotate(0deg)",
@@ -49,9 +56,9 @@ class ThreadCard extends React.Component {
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
   };
-  
+
   render() {
-    const { classes } = this.props;
+    const { classes, title, content, time_created } = this.props;
     return (
       <React.Fragment>
         <Card>
@@ -63,11 +70,11 @@ class ThreadCard extends React.Component {
             }
             action={
               <IconButton>
-                <MoreVertIcon />
+                <ThreadMenu />
               </IconButton>
             }
-            title="Kingston Technology A400 120GB SSD 2.5 SATA £24.49 @ MyMemory"
-            subheader="Created on September 14, 2016"
+            title={title}
+            subheader={time_created}
           />
           <CardMedia
             className={classes.media}
@@ -78,9 +85,13 @@ class ThreadCard extends React.Component {
             <IconButton aria-label="Add to favorites">
               <FavoriteIcon />
             </IconButton>
-            <IconButton aria-label="Share">
-              <ShareIcon />
-            </IconButton>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+            >
+              Get Deal
+            </Button>
             <IconButton
               className={classnames(classes.expand, {
                 [classes.expandOpen]: this.state.expanded
@@ -95,7 +106,7 @@ class ThreadCard extends React.Component {
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography paragraph variant="body2">
-                Content Goes here
+                {content}
               </Typography>
             </CardContent>
           </Collapse>
