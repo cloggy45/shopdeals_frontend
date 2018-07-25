@@ -17,7 +17,6 @@ import Typography from "@material-ui/core/Typography";
 import red from "@material-ui/core/colors/red";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import ThreadMenu from "./ThreadMenu";
 
@@ -60,8 +59,8 @@ class ThreadCard extends React.Component {
   render() {
     const { classes, title, content, time_created } = this.props;
     return (
-      <>
-        <Card>
+      <React.Fragment>
+        <Card >
           <CardHeader
             avatar={
               <Avatar aria-label="Thread" className={classes.avatar}>
@@ -111,7 +110,7 @@ class ThreadCard extends React.Component {
             </CardContent>
           </Collapse>
         </Card>
-      </>
+      </React.Fragment>
     );
   }
 }
