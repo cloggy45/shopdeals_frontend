@@ -9,15 +9,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-          <MenuAppBar />
-        <Grid container spacing={6}>
-          <Grid item xs>
-          </Grid>
+        <MenuAppBar />
+        <Grid container spacing={8}>
+          <Grid item xs />
           <Grid item xs={6}>
             <ListThreads />
           </Grid>
-          <Grid item xs>
-          </Grid>
+          <Grid item xs />
         </Grid>
       </div>
     );
