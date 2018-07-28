@@ -1,14 +1,15 @@
-import { api } from "./api";
+import { userReducer } from "./user";
 import {
-  RECEIVE_USER_SUCCESS, RECEIVE_USER_FAILURE
+  RECEIVE_USER_SUCCESS,
+  RECEIVE_USER_FAILURE
 } from "../actions/actionTypes";
 import expect from "expect";
 
-describe("api reducer", () => {
+describe("user reducer", () => {
   it("should return the initial state", () => {
-    expect(api({}, undefined)).toEqual({});
+    expect(userReducer({}, undefined)).toEqual({});
   });
-  
+
   it("should handle RECEIVE_USER_SUCCESS", () => {
     const user = {
       username: "smith",
@@ -18,16 +19,16 @@ describe("api reducer", () => {
       type: RECEIVE_USER_SUCCESS,
       payload: user
     };
-    expect(api({}, action)).toEqual({ user });
+    expect(userReducer({}, action)).toEqual({ user });
   });
 
   it("should handle RECEIVE_USER_FAILURE", () => {
-    const error = {"error": "Fetch user failed"}
+    const error = { error: "Fetch user failed" };
 
     const action = {
       type: RECEIVE_USER_FAILURE,
       payload: error
-    }
-    expect(api({}, action)).toEqual({error})
-  })
+    };
+    expect(userReducer({}, action)).toEqual({ error });
+  });
 });

@@ -1,5 +1,12 @@
-import { combineReducers } from 'redux';
-import { api } from './api';
+import { combineReducers } from "redux";
+import * as fromUser from "./user";
+
+const USER = "USER";
+
 export default combineReducers({
- api
+  [USER]: fromUser.userReducer
 });
+
+export function isLoadingUser(store) {
+  return fromUser.isLoading(store[USER]);
+}
