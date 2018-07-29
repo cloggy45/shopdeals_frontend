@@ -1,17 +1,18 @@
 const initState = {
   isLoading: false,
-  user: {}
+  user: {},
+  error: {}
 };
 
 export const userReducer = (currentState = initState, action) => {
   if (action === undefined) return currentState;
 
   switch (action.type) {
-    case "RECEIVE_USER_SUCCESS":
+    case 'RECEIVE_USER_SUCCESS':
       return Object.assign({}, currentState, {
         user: action.payload
       });
-    case "RECEIVE_USER_FAILURE":
+    case 'RECEIVE_USER_FAILURE':
       return Object.assign({}, currentState, {
         error: action.payload
       });
@@ -26,4 +27,8 @@ export const isLoading = store => {
 
 export const getUser = store => {
   return store.user;
+};
+
+export const getError = store => {
+  return store.error;
 };
