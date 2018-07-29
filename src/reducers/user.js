@@ -1,20 +1,26 @@
 const initState = {
   isLoading: false,
-  user: {},
-  error: {}
+  user: [],
+  error: []
 };
 
 export const userReducer = (currentState = initState, action) => {
   if (action === undefined) return currentState;
 
   switch (action.type) {
-    case 'RECEIVE_USER_SUCCESS':
+    case 'FETCH_USER_SUCCESSFUL':
       return Object.assign({}, currentState, {
-        user: action.payload
+        user: action.payload,
+        isLoading: false
       });
-    case 'RECEIVE_USER_FAILURE':
+    case 'FETCH_USER_FAILED':
       return Object.assign({}, currentState, {
-        error: action.payload
+        error: action.payload,
+        isLoading: false
+      });
+    case 'FETCH_USER_REQUESTING':
+      return Object.assign({}, currentState, {
+        isLoading: true
       });
     default:
       return currentState;

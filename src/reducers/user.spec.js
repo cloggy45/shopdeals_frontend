@@ -1,34 +1,44 @@
-import { userReducer } from "./user";
+import { userReducer } from './user';
 import {
-  RECEIVE_USER_SUCCESS,
-  RECEIVE_USER_FAILURE
-} from "../actions/actionTypes";
-import expect from "expect";
+  FETCH_USER_REQUESTING,
+  FETCH_USER_FAILED,
+  FETCH_USER_SUCCESSFUL
+} from '../actions/actionTypes';
+import expect from 'expect';
 
-describe("user reducer", () => {
-  it("should return the initial state", () => {
+describe('user reducer', () => {
+  it('should return the initial state', () => {
     expect(userReducer({}, undefined)).toEqual({});
   });
 
-  it("should handle RECEIVE_USER_SUCCESS", () => {
+  it('should handle FETCH_USER_SUCCESSFUL', () => {
     const user = {
-      username: "smith",
-      id: 6
+      username: 'smith'
     };
     const action = {
-      type: RECEIVE_USER_SUCCESS,
-      payload: user
+      type: FETCH_USER_SUCCESSFUL,
+      payload: user,
+      isLoading: false
     };
-    expect(userReducer({}, action)).toEqual({ user });
+    expect(userReducer({}, action)).toEqual({ isLoading: false, user });
   });
 
-  it("should handle RECEIVE_USER_FAILURE", () => {
-    const error = { error: "Fetch user failed" };
+  it('should handle FETCH_USER_FAILED', () => {
+    const error = { error: 'Fetch user failed' };
 
     const action = {
-      type: RECEIVE_USER_FAILURE,
-      payload: error
+      type: FETCH_USER_FAILED,
+      payload: error,
+      isLoading: false
     };
-    expect(userReducer({}, action)).toEqual({ error });
+    expect(userReducer({}, action)).toEqual({ isLoading: false, error });
+  });
+
+  it('should handle FETCH_USER_REQUESTING', () => {
+    const action = {
+      type: FETCH_USER_REQUESTING,
+      isLoading: true
+    };
+    expect(userReducer({}, action)).toEqual({ isLoading: true });
   });
 });
