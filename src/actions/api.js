@@ -1,30 +1,34 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { RECEIVE_USER_SUCCESS, RECEIVE_USER_FAILURE } from "./actionTypes";
+import {
+  FETCH_USER_REQUESTING,
+  FETCH_USER_SUCCESSFUL,
+  FETCH_USER_FAILED
+} from './actionTypes';
 
-axios.defaults.baseURL = "http://localhost:4000/api/"
+export const fetchUserData = id => dispatch => {
+  dispatch({
+    type: FETCH_USER_REQUESTING,
+    isLoading: true
+  });
 
-export const receiveUserSuccess = json => {
-  return {
-    type: RECEIVE_USER_SUCCESS,
-    payload: json
-  };
+  const request = axios({
+    method: 'GET',
+    url: `http://demo8555433.mockable.io/user/${id}`
+  });
+
+  return request.then(
+    response =>
+      dispatch({
+        type: FETCH_USER_SUCCESSFUL,
+        payload: response.data,
+        isLoading: false
+      }),
+    error =>
+      dispatch({
+        type: FETCH_USER_FAILED,
+        payload: error || 'failed to fetch user data',
+        isLoading: false
+      })
+  );
 };
-
-export const receiveUserFailure = error => {
-  return {
-    type: RECEIVE_USER_FAILURE,
-    payload: error
-  };
-};
-
-export function fetchUserData(user) {
-  return dispatch => {
-    return axios.get('/user/' + user).then(response => {
-      dispatch(receiveUserSuccess(response.data));
-    }).catch(error => {
-      dispatch(receiveUserFailure({"error": "Fetch user failed"}));
-    })
-  }
-}
-
