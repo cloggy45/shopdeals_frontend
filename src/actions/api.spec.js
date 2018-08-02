@@ -2,6 +2,7 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
+import { serverInfo } from "../misc/connectionInfo";
 
 import {
   FETCH_USER_FAILED,
@@ -14,6 +15,8 @@ import { fetchUserData } from "./api";
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const mock = new MockAdapter(axios);
+
+const serverAddress = serverInfo.address;
 
 describe("Test Async Actions", () => {
   let store = mockStore({ api: [] });
@@ -28,8 +31,6 @@ describe("Test Async Actions", () => {
   });
 
   describe("User api actions", () => {
-    const url = "http://demo8555433.mockable.io/";
-
     const actionRequest = {
       type: FETCH_USER_REQUESTING,
       isLoading: true
@@ -42,7 +43,8 @@ describe("Test Async Actions", () => {
     };
 
     it("should fetch user details", () => {
-      const param = "smith";
+      const endpoint = "/user/";
+      const userId = 5;
 
       const somePayload = {
         id: 5,
@@ -59,18 +61,15 @@ describe("Test Async Actions", () => {
         payload: somePayload,
         isLoading: false
       };
+      mock.onGet(serverAddress + endpoint + userId).reply(200, somePayload);
 
-      mock
-        .onGet("http://demo8555433.mockable.io/user/5")
-        .reply(200, somePayload);
-
-      return store.dispatch(fetchUserData(5)).then(() => {
+      return store.dispatch(fetchUserData(userId)).then(() => {
         expect(store.getActions()).toEqual([actionRequest, actionSuccess]);
       });
     });
 
     it("should generate error", () => {
-      mock.onGet(url).networkError();
+      mock.onGet(serverAddress).networkError();
       return store.dispatch(fetchUserData()).then(() => {
         expect(store.getActions()).toEqual([actionRequest, actionFailed]);
       });

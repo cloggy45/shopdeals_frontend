@@ -9,7 +9,7 @@
 # production
 /build
 
-/misc
+connectionInfo*
 
 # misc
 .DS_Store
