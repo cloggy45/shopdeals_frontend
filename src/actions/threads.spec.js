@@ -10,11 +10,14 @@ import {
   FETCH_THREADS_SUCCESSFUL
 } from "./actionTypes";
 
-import { fetchThreads } from "./threads";
+import { fetchThreadData } from "./threads";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const mock = new MockAdapter(axios);
+
+const address = serverInfo.address;
+const endpoint = "/thread/";
 
 describe("The async thread functions", () => {
   let store = mockStore({ threads: [] });
@@ -35,21 +38,13 @@ describe("The async thread functions", () => {
 
   const actionFailed = {
     type: FETCH_THREADS_FAILED,
+    payload: new Error("Request failed with status code 404"),
     isLoading: false
   };
+  it("should fetch individual thread by id", () => {
+    const threadId = 2;
 
-  it("should fetch threads", () => {
     const payload = [
-      {
-        id: 1,
-        title: "Prisoner of Shark Island, The",
-        body:
-          "Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue.",
-        link:
-          "https://nsw.gov.au/volutpat/in/congue/etiam/justo/etiam/pretium.png?nullam=enim&orci=lorem&pede=ipsum&venenatis=dolor&non=sit&sodales=amet&sed=consectetuer&tincidunt=adipiscing&eu=elit&felis=proin&fusce=interdum&posuere=mauris&felis=non&sed=ligula&lacus=pellentesque",
-        author: "ewoodhouse0",
-        timestamp: "2017-06-08T00:05:01Z"
-      },
       {
         id: 2,
         title: "Pleasure of Being Robbed, The",
@@ -62,10 +57,22 @@ describe("The async thread functions", () => {
       }
     ];
 
-    const actionSuccessful = {
+    const actionSuccess = {
       type: FETCH_THREADS_SUCCESSFUL,
       payload: payload,
       isLoading: false
     };
+
+    mock.onGet(address + endpoint + threadId).reply(200, payload);
+    return store.dispatch(fetchThreadData(threadId)).then(() => {
+      expect(store.getActions()).toEqual([actionRequest, actionSuccess]);
+    });
+  });
+
+  it("should generate a network error", () => {
+    mock.onGet(address + endpoint).networkError();
+    return store.dispatch(fetchThreadData()).then(() => {
+      expect(store.getActions()).toEqual([actionRequest, actionFailed]);
+    });
   });
 });
