@@ -6,10 +6,7 @@ import thunk from "redux-thunk";
 import {
   FETCH_USER_FAILED,
   FETCH_USER_REQUESTING,
-  FETCH_USER_SUCCESSFUL,
-  FETCH_THREADS_REQUESTING,
-  FETCH_THREADS_FAILED,
-  FETCH_THREADS_SUCCESSFUL
+  FETCH_USER_SUCCESSFUL
 } from "./actionTypes";
 
 import { fetchUserData } from "./api";
