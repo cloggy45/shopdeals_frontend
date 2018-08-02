@@ -10,7 +10,7 @@ import {
   FETCH_USER_SUCCESSFUL
 } from "./actionTypes";
 
-import { fetchUserData } from "./api";
+import { fetchUserData } from "./users";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -44,7 +44,7 @@ describe("Test Async Actions", () => {
 
     it("should fetch user details", () => {
       const endpoint = "/user/";
-      const userId = 5;
+      const userId = "5";
 
       const somePayload = {
         id: 5,
@@ -68,7 +68,7 @@ describe("Test Async Actions", () => {
       });
     });
 
-    it("should generate error", () => {
+    it("should generate network error", () => {
       mock.onGet(serverAddress).networkError();
       return store.dispatch(fetchUserData()).then(() => {
         expect(store.getActions()).toEqual([actionRequest, actionFailed]);

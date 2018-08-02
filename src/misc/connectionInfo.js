@@ -1,3 +1,5 @@
 export const serverInfo = {
-  address: "TOP SECRET ADDRESS"
+  address: "http://demo8555433.mockable.io"
 };
+
+// https://github.com/CompuIves/codesandbox-client/issues/323

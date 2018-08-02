@@ -1,20 +1,24 @@
-import axios from 'axios';
+import axios from "axios";
+import { serverInfo } from "../misc/connectionInfo";
 
 import {
   FETCH_USER_REQUESTING,
   FETCH_USER_SUCCESSFUL,
   FETCH_USER_FAILED
-} from './actionTypes';
+} from "./actionTypes";
 
 export const fetchUserData = id => dispatch => {
+  const url = serverInfo.address;
+  const endpoint = "/user/";
+
   dispatch({
     type: FETCH_USER_REQUESTING,
     isLoading: true
   });
 
   const request = axios({
-    method: 'GET',
-    url: `http://demo8555433.mockable.io/user/${id}`
+    method: "GET",
+    url: url + endpoint + id
   });
 
   return request.then(
@@ -27,7 +31,7 @@ export const fetchUserData = id => dispatch => {
     error =>
       dispatch({
         type: FETCH_USER_FAILED,
-        payload: error || 'failed to fetch user data',
+        payload: error || "failed to fetch user data",
         isLoading: false
       })
   );
