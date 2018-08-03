@@ -7,9 +7,12 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import Button from "@material-ui/core/Button";
 
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+
+import { isUserAuthenticated } from "../reducers/rootReducer";
 
 const styles = {
   root: {
@@ -17,6 +20,10 @@ const styles = {
   },
   flex: {
     flexGrow: 1
+  },
+  button: {
+    color: "white",
+    borderColor: "white"
   },
   menuButton: {
     marginLeft: -12,
@@ -26,12 +33,7 @@ const styles = {
 
 class MenuAppBar extends React.Component {
   state = {
-    auth: false,
     anchorEl: null
-  };
-
-  handleChange = (event, checked) => {
-    this.setState({ auth: checked });
   };
 
   handleMenu = event => {
@@ -44,8 +46,48 @@ class MenuAppBar extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { auth, anchorEl } = this.state;
+    const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
+    const { userAuthenticated } = this.props;
+    let menu;
+    if (!userAuthenticated) {
+      menu = (
+        <Button variant="outlined" className={classes.button}>
+          Sign Up
+        </Button>
+      );
+    } else {
+      menu = (
+        <React.Fragment>
+          <IconButton
+            aria-owns={open ? "menu-appbar" : null}
+            aria-haspopup="true"
+            onClick={this.handleMenu}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right"
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right"
+            }}
+            open={open}
+            onClose={this.handleClose}
+          >
+            <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+            <MenuItem onClick={this.handleClose}>My account</MenuItem>
+            <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+          </Menu>
+        </React.Fragment>
+      );
+    }
 
     return (
       <div className={classes.root}>
@@ -65,32 +107,7 @@ class MenuAppBar extends React.Component {
             >
               Shop Deals
             </Typography>
-            <IconButton
-              aria-owns={open ? "menu-appbar" : null}
-              aria-haspopup="true"
-              onClick={this.handleMenu}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right"
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right"
-              }}
-              open={open}
-              onClose={this.handleClose}
-            >
-              <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-              <MenuItem onClick={this.handleClose}>My account</MenuItem>
-              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
-            </Menu>
+            {menu}
           </Toolbar>
         </AppBar>
       </div>
@@ -100,6 +117,10 @@ class MenuAppBar extends React.Component {
 
 MenuAppBar.propTypes = {
   classes: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => {
+  userAuthenticated: isUserAuthenticated();
 };
 
 export default withStyles(styles)(MenuAppBar);

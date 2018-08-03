@@ -10,3 +10,7 @@ export default combineReducers({
 export function isLoadingUser(store) {
   return fromUser.isLoading(store[USER]);
 }
+
+export function isUserAuthenticated(store) {
+  return fromUser.isUserAuthenticated(store[USER]);
+}
