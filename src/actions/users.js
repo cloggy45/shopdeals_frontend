@@ -18,7 +18,7 @@ export const fetchUserData = id => dispatch => {
 
   const request = axios({
     method: "GET",
-    url: url + endpoint + id
+    url: String(url + endpoint + id)
   });
 
   return request.then(

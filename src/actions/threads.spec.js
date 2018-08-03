@@ -42,7 +42,7 @@ describe("The async thread functions", () => {
     isLoading: false
   };
   it("should fetch individual thread by id", () => {
-    const threadId = 2;
+    const threadId = "2";
 
     const payload = [
       {
