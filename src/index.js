@@ -1,17 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import configureStore from "./store";
+import { store } from "./store";
 import App from "../src/containers/App";
 import registerServiceWorker from "./registerServiceWorker";
 
-import { Router, Route, browserHistory } from "react-router";
+import { Route, Switch } from "react-router";
+import { ConnectedRouter } from "connected-react-router";
+import { history } from "./misc/browserHistory";
 
 ReactDOM.render(
-  <Provider store={configureStore()}>
-    <Router history={browserHistory}>
-      <Route path={"/"} component={App} />
-    </Router>
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <React.Fragment>
+        <Switch>
+          <Route path={"/"} component={App} />
+        </Switch>
+      </React.Fragment>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById("root")
 );
