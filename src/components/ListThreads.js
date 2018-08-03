@@ -40,6 +40,6 @@ const mapStateToProps = state => ({
   ]
 });
 
-const ListThreadsContainer = connect(mapStateToProps)(ListThreads);
+const ListThreadsComponent = connect(mapStateToProps)(ListThreads);
 
-export default ListThreadsContainer;
+export default ListThreadsComponent;

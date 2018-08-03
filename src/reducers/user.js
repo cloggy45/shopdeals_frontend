@@ -1,5 +1,6 @@
 const initState = {
   isLoading: false,
+  isAuthenticated: false,
   user: [],
   error: []
 };
@@ -8,17 +9,17 @@ export const userReducer = (currentState = initState, action) => {
   if (action === undefined) return currentState;
 
   switch (action.type) {
-    case 'FETCH_USER_SUCCESSFUL':
+    case "FETCH_USER_SUCCESSFUL":
       return Object.assign({}, currentState, {
         user: action.payload,
         isLoading: false
       });
-    case 'FETCH_USER_FAILED':
+    case "FETCH_USER_FAILED":
       return Object.assign({}, currentState, {
         error: action.payload,
         isLoading: false
       });
-    case 'FETCH_USER_REQUESTING':
+    case "FETCH_USER_REQUESTING":
       return Object.assign({}, currentState, {
         isLoading: true
       });
@@ -37,4 +38,8 @@ export const getUser = store => {
 
 export const getError = store => {
   return store.error;
+};
+
+export const getAuthStatus = store => {
+  return store.isAuthenticated;
 };
