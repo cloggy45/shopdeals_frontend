@@ -5,9 +5,13 @@ import configureStore from "./store";
 import App from "../src/containers/App";
 import registerServiceWorker from "./registerServiceWorker";
 
+import { Router, Route, browserHistory } from "react-router";
+
 ReactDOM.render(
   <Provider store={configureStore()}>
-    <App />
+    <Router history={browserHistory}>
+      <Route path={"/"} component={App} />
+    </Router>
   </Provider>,
   document.getElementById("root")
 );
