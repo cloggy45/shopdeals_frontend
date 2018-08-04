@@ -12,5 +12,5 @@ export function isLoadingUser(store) {
 }
 
 export function isUserAuthenticated(store) {
-  return fromUser.isUserAuthenticated(store[USER]);
+  return fromUser.getAuthStatus(store[USER]);
 }
