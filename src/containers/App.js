@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import MenuAppBar from "../containers/MenuAppBar";
 import ListThreads from "../components/ListThreads";
-import { withRouter } from "react-router-dom";
 import { Grid } from "../../node_modules/@material-ui/core";
 
 class App extends Component {
