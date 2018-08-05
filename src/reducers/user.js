@@ -26,7 +26,7 @@ export const userReducer = (currentState = {
 };
 
 export const isLoading = store => {
-  return store.isLoading;
+  return store.dog;
 };
 
 export const getUser = store => {

@@ -11,6 +11,7 @@ export const authReducer = (currentState = {
       };
     case "LOGIN_SUCCESSFUL":
       return { ...currentState,
+        profile: action.payload.profile,
         isLoading: false,
         isAuthenticated: true
       };
@@ -19,10 +20,15 @@ export const authReducer = (currentState = {
         isLoading: false,
         error: "LOGIN FAILED"
       };
+    case "LOGOUT_SUCCESSFUL":
+      return { ...currentState,
+        isLoading: false,
+        isAuthenticated: false
+      }
     case "LOGOUT_REQUESTED":
       return {
         ...currentState,
-        isLoading:true,
+        isLoading: true,
         isAuthenticated: false
       };
     default:

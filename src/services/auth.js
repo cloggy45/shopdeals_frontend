@@ -1,63 +1,80 @@
-import auth0 from 'auth0-js';
+import Auth0Lock from 'auth0-lock';
+import jwtDecode from 'jwt-decode';
 
-import {
-  authInfo
-} from '../misc/connectionInfo';
+import { authInfo as config } from '../misc/connectionInfo';
 
-import {
-  history
-} from '../misc/browserHistory';
+// Configure Auth0 lock
+export const lock = new Auth0Lock(config.AUTH0_CLIENT_ID, config.AUTH0_DOMAIN, {
+  auth: {
+    redirectUrl: config.REDIRECT_URL,
+    responseType: 'token id_token'
+  },
+  theme: {
+    primaryColor: '#b81b1c'
+  },
+  languageDictionary: {
+    title: 'React Redux Auth0 Kit'
+  }
+});
 
-export default class Auth {
-  auth0 = new auth0.WebAuth(authInfo);
+export const login = () => {
+  // Call the show method to display the widget.
+  lock.show();
+};
 
-  constructor() {
-    this.login = this.login.bind(this);
-    this.logout = this.logout.bind(this);
-    this.handleAuthentication = this.handleAuthentication.bind(this);
-    this.isAuthenticated = this.isAuthenticated.bind(this);
+export const loggedIn = () => {
+  // Checks if there is a saved token and it's still valid
+  const token = getToken();
+  return !!token && !isTokenExpired(token);
+};
+
+export const logout = () => {
+  // Clear user token and profile data from window.localStorage
+  window.localStorage.removeItem('id_token');
+  window.localStorage.removeItem('profile');
+};
+
+export const getProfile = () => {
+  // Retrieves the profile data from window.localStorage
+  const profile = window.localStorage.getItem('profile');
+  return profile ? JSON.parse(window.localStorage.profile) : {};
+};
+
+export const setProfile = profile => {
+  // Saves profile data to window.localStorage
+  window.localStorage.setItem('profile', JSON.stringify(profile));
+  // Triggers profile_updated event to update the UI
+};
+
+export const setToken = idToken => {
+  // Saves user token to window.localStorage
+  window.localStorage.setItem('id_token', idToken);
+};
+
+export const getToken = () => {
+  // Retrieves the user token from window.localStorage
+  return window.localStorage.getItem('id_token');
+};
+
+export const getTokenExpirationDate = () => {
+  const token = getToken();
+  const decoded = jwtDecode(token);
+  if (!decoded.exp) {
+    return null;
   }
 
-  login() {
-    this.auth0.authorize();
-  }
+  const date = new Date(0); // The 0 here is the key, which sets the date to the epoch
+  date.setUTCSeconds(decoded.exp);
+  return date;
+};
 
-  handleAuthentication() {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
-        history.replace('/home');
-      } else if (err) {
-        history.replace('/home');
-        console.log(err);
-        alert(`Error: ${err.error}. Check the console for further details.`);
-      }
-    });
+export const isTokenExpired = () => {
+  const token = getToken();
+  if (!token) return true;
+  const date = getTokenExpirationDate();
+  const offsetSeconds = 0;
+  if (date === null) {
+    return false;
   }
-
-  setSession(authResult) {
-    // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
-    // navigate to the home route
-    history.replace('/home');
-  }
-
-  logout() {
-    // Clear access token and ID token from local storage
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
-    // navigate to the home route
-    history.replace('/home');
-  }
-
-  isAuthenticated() {
-    // Check whether the current time is past the 
-    // access token's expiry time
-    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    return new Date().getTime() < expiresAt;
-  }
-}
+  return !(date.valueOf() > new Date().valueOf() + offsetSeconds * 1000);
+};

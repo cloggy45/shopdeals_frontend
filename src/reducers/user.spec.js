@@ -1,6 +1,4 @@
-import {
-  userReducer
-} from './user';
+import { userReducer } from './user';
 import {
   FETCH_USER_REQUESTING,
   FETCH_USER_FAILED,
@@ -10,8 +8,7 @@ import expect from 'expect';
 
 describe('user reducer', () => {
   it('should return the initial state', () => {
-    expect(userReducer(undefined, {}
-    )).toEqual({
+    expect(userReducer(undefined, {})).toEqual({
       isLoading: false,
       isAuthenticated: true,
       user: [],

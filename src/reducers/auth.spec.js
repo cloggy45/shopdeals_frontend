@@ -35,12 +35,13 @@ describe('Auth reducer', () => {
 
   it('should handle LOGIN_SUCCESSFUL', () => {
     const action = {
-      type: LOGIN_SUCCESSFUL
+      type: LOGIN_SUCCESSFUL,
+      payload:  { profile: { fakeProperty: 'fakeValue' } }
     }
     const expected = {
       isAuthenticated: true,
       isLoading: false,
-      profile: {},
+      profile: { fakeProperty: 'fakeValue' },
       error: null
     }
     expect(authReducer(undefined, action)).toEqual(expected);
