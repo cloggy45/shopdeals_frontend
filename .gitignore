@@ -9,7 +9,7 @@
 # production
 /build
 
-connectionInfo*
+connectionInfo.js
 
 # misc
 .DS_Store
