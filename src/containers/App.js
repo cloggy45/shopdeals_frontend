@@ -13,7 +13,7 @@ import { withRouter } from 'react-router-dom';
 
 import * as authActions from '../actions/auth';
 
-import Header from "../containers/Header";
+import Header from "./Header/AppBar";
 import * as AuthService from '../services/auth';
 
 class App extends Component {
@@ -52,7 +52,9 @@ class App extends Component {
       <React.Fragment>
         <Header />
         <Switch>
-          <Route exact path="/" render={() => <h1>Hello World</h1>} />
+          <Route exact path="/profile" render={() => <h1>Profile</h1>} />
+          <Route exact path="/logout" render={() => <h1>Logout</h1>} />
+          <Route exact path="/account" render={() => <h1>Account</h1>} />
         </Switch>
       </React.Fragment>
     );
