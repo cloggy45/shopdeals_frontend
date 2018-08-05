@@ -12,8 +12,6 @@ import { ConnectedRouter } from "connected-react-router";
 
 import { history } from "./misc/browserHistory";
 
-
-
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>

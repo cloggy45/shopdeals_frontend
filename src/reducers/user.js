@@ -1,28 +1,25 @@
-const initState = {
+export const userReducer = (currentState = {
   isLoading: false,
   isAuthenticated: true,
   user: [],
   error: []
-};
-
-export const userReducer = (currentState = initState, action) => {
-  if (action === undefined) return currentState;
+}, action) => {
 
   switch (action.type) {
     case "FETCH_USER_SUCCESSFUL":
-      return Object.assign({}, currentState, {
+      return {...currentState,
         user: action.payload,
         isLoading: false
-      });
+      }
     case "FETCH_USER_FAILED":
-      return Object.assign({}, currentState, {
+      return  {...currentState, 
         error: action.payload,
         isLoading: false
-      });
+      };
     case "FETCH_USER_REQUESTING":
-      return Object.assign({}, currentState, {
+      return {...currentState,
         isLoading: true
-      });
+      };
     default:
       return currentState;
   }
