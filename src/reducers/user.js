@@ -1,6 +1,6 @@
 const initState = {
   isLoading: false,
-  isAuthenticated: false,
+  isAuthenticated: true,
   user: [],
   error: []
 };

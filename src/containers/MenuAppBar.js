@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -12,7 +14,11 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 
+import { withRouter } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
 import { isUserAuthenticated } from "../reducers/rootReducer";
+
 
 const styles = {
   root: {
@@ -81,14 +87,14 @@ class MenuAppBar extends React.Component {
             open={open}
             onClose={this.handleClose}
           >
-            <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-            <MenuItem onClick={this.handleClose}>My account</MenuItem>
-            <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+            <MenuItem onClick={this.handleClose}><Link to="/profile">Profile</Link></MenuItem>
+            <MenuItem onClick={this.handleClose}><Link to="/settings">Settings</Link></MenuItem>
+            <MenuItem onClick={this.handleClose}><Link to="/logout">Logout</Link></MenuItem>
           </Menu>
         </React.Fragment>
       );
     }
-
+    
     return (
       <div className={classes.root}>
         <AppBar position="static">
@@ -120,7 +126,9 @@ MenuAppBar.propTypes = {
 };
 
 const mapStateToProps = state => {
-  userAuthenticated: isUserAuthenticated();
+  return {
+    userAuthenticated: isUserAuthenticated(state)
+  }
 };
 
-export default withStyles(styles)(MenuAppBar);
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(MenuAppBar)));

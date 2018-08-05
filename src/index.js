@@ -9,7 +9,10 @@ import Callback from "../src/components/Callback";
 
 import { Route, Switch } from "react-router";
 import { ConnectedRouter } from "connected-react-router";
+
 import { history } from "./misc/browserHistory";
+
+
 
 ReactDOM.render(
   <Provider store={store}>
