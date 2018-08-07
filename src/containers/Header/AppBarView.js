@@ -65,7 +65,7 @@ class HeaderBar extends Component {
     };
 
     render() {
-        const {auth, classes} = this.props;
+        const {authProfile, isAuthenticated, authError, classes} = this.props;
         const { open } = this.state;
         return (
             <div className={classes.root}>
@@ -84,15 +84,15 @@ class HeaderBar extends Component {
                         <Typography variant="title" color="inherit" className={classes.flex}>
                             Shop Deals
                         </Typography>
-                        {auth.isAuthenticated ? (
+                        {isAuthenticated ? (
                             <React.Fragment>
-                                <Avatar src={auth.profile.picture} height="40px" alt="profile" className={classes.avatar}/>
-                                <Typography color={"inherit"}> Welcome, {auth.profile.nickname}</Typography>
+                                <Avatar src={authProfile.picture} height="40px" alt="profile" className={classes.avatar}/>
+                                <Typography color={"inherit"}> Welcome, {authProfile.nickname}</Typography>
                             </React.Fragment>
                         ) : (
                             <Button color="inherit" onClick={this.handleLoginClick}>Login</Button>
                         )}
-                        {auth.error && <p>{JSON.stringify(auth.error)}</p>}
+                        {authError && <p>{JSON.stringify(authError)}</p>}
                     </Toolbar>
                     <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
                         {({ TransitionProps, placement }) => (
@@ -107,14 +107,14 @@ class HeaderBar extends Component {
                                             <MenuItem onClick={this.handleClose}><NavLink to={"/deals"} className={classes.link}>Deals</NavLink></MenuItem>
                                             <MenuItem onClick={this.handleClose}><NavLink to={"/freebies"} className={classes.link}>Freebies</NavLink></MenuItem>
                                             {
-                                                auth.isAuthenticated ? (
+                                                isAuthenticated && (
                                                     <React.Fragment>
                                                         <Divider/>
                                                         <MenuItem onClick={this.handleClose}><NavLink to={"/profile"} className={classes.link}>Profile</NavLink></MenuItem>
                                                         <MenuItem onClick={this.handleClose}><NavLink to={"/account"} className={classes.link}> Account Settings</NavLink></MenuItem>
                                                         <MenuItem onClick={this.handleLogoutClick}><NavLink to={"/logout"} className={classes.link}>Logout</NavLink></MenuItem>
                                                     </React.Fragment>
-                                                ) : null
+                                                )
                                             }
                                         </MenuList>
                                     </ClickAwayListener>

@@ -4,13 +4,15 @@ import {withRouter} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
 
 import * as authActions from '../../actions/auth';
+import * as fromAuth from '../../reducers/rootReducer';
 
 import HeaderBar, {styles} from './AppBarView';
 
-
 const mapStateToProps = state => {
     return {
-        auth: state["AUTH"]
+        isAuthenticated: fromAuth.isAuthenticated(state),
+        authProfile: fromAuth.getAuthProfile(state),
+        authError: fromAuth.getAuthError(state)
     }
 };
 
